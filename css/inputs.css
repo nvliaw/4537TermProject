@@ -1,0 +1,30 @@
+body {
+    background-color: cadetblue;
+}
+
+.customerText {
+    /* float:left; */
+    padding-right: 1em;
+    margin-right: 1em;
+    height: 100%;
+    resize: none;
+    background-color: beige;
+}
+.functionButton {
+    display: block;
+    margin-top: 0.5em;
+}
+
+.individualCustomer {
+    /* margin-top: 2em; */
+    height: 4.5em;
+    margin-top: 0.8em;
+    margin-bottom: 0.8em;
+}
+
+#buttons {
+    padding-top: 0;
+    display: inline-block;
+    vertical-align: top;
+}
+

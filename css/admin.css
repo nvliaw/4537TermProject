@@ -1,0 +1,15 @@
+body {
+    background-color: cadetblue;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+table {
+    background-color: beige;
+}
+
+th, td {
+    padding-right: 1em;
+}
