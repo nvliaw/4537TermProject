@@ -1,0 +1,519 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "This is a wedding venue booking planner.",
+    "version": "1.0.0",
+    "title": "Swagger: Wedding Venue Planner"
+  },
+  "host": "www.henryliu-cst.com",
+  "basePath": "/COMP_4537/term_project/API/v1",
+  "tags": [
+    {
+      "name": "customers",
+      "description": "Everything about your Customers"
+    },
+    {
+      "name": "venues",
+      "description": "Everything about your Venues"
+    },
+    {
+      "name": "bookings",
+      "description": "Everything about your Bookings"
+    },
+    {
+      "name": "statistics",
+      "description": "Shows the statistics of the different endpoints"
+    }
+  ],
+  "schemes": [
+    "https"
+  ],
+  "paths": {
+    "/customers": {
+      "get": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Gets all the Customers",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Customer object that's returned",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Failed operation"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Add a new Customer",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Customer object to be added",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Failed operation"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Update an existing Customer",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Customer object that needs to be added",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Failed operation"
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "customers"
+        ],
+        "summary": "Delete an existing Customer",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Customer object to be deleted",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Customer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Failed operation"
+          },
+          "404": {
+            "description": "Customer not found"
+          }
+        }
+      }
+    },
+    "/venues": {
+      "get": {
+        "tags": [
+          "venues"
+        ],
+        "summary": "Gets all the Venues",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Venue object that's returned",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Venue"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Failed operation"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "venues"
+        ],
+        "summary": "Add a new Venue",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Venue object to be added",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Venue"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Failed operation"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "venues"
+        ],
+        "summary": "Update an existing Venue",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Venue object that needs to be added",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Venue"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Failed operation"
+          },
+          "404": {
+            "description": "Venue not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "venues"
+        ],
+        "summary": "Delete an existing Venue",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Venue object to be deleted",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Venue"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Failed operation"
+          },
+          "404": {
+            "description": "Venue not found"
+          }
+        }
+      }
+    },
+    "/bookings": {
+      "get": {
+        "tags": [
+          "bookings"
+        ],
+        "summary": "Gets all the Bookings",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Booking object that's returned",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Booking"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Failed operation"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "bookings"
+        ],
+        "summary": "Add a new Booking",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Booking object to be added",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Booking"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Failed operation"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "bookings"
+        ],
+        "summary": "Update an existing Booking",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Booking object that needs to be added",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Booking"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Failed operation"
+          },
+          "404": {
+            "description": "Booking not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "bookings"
+        ],
+        "summary": "Delete an existing Booking",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Booking object to be deleted",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Booking"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Failed operation"
+          },
+          "404": {
+            "description": "Booking not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Customer": {
+      "type": "object",
+      "required": [
+        "fname",
+        "lname",
+        "email"
+      ],
+      "properties": {
+        "fname": {
+          "type": "string",
+          "example": "Amir"
+        },
+        "lname": {
+          "type": "string",
+          "example": "Amintabar"
+        },
+        "email": {
+          "type": "string",
+          "example": "amir@bcit.ca"
+        }
+      }
+    },
+    "Venue": {
+      "type": "object",
+      "required": [
+        "venue_name",
+        "address",
+        "postal_code",
+        "city",
+        "province"
+      ],
+      "properties": {
+        "venue_name": {
+          "type": "string",
+          "example": "BCIT"
+        },
+        "address": {
+          "type": "string",
+          "example": "3700 Willingdon Ave"
+        },
+        "postal_code": {
+          "type": "string",
+          "example": "V5G 3H2"
+        },
+        "city": {
+          "type": "string",
+          "example": "Burnaby"
+        },
+        "province": {
+          "type": "string",
+          "example": "BC"
+        }
+      }
+    },
+    "Booking": {
+      "type": "object",
+      "required": [
+        "booking_date",
+        "venue_id",
+        "c_id"
+      ],
+      "properties": {
+        "booking_date": {
+          "type": "string",
+          "example": "2021/01/01"
+        },
+        "venue_id": {
+          "type": "integer",
+          "example": 0
+        },
+        "c_id": {
+          "type": "integer",
+          "example": 0
+        }
+      }
+    }
+  }
+}
