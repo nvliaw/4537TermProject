@@ -1,6 +1,9 @@
 const endPointRoot = "https://henryliu-cst.com/COMP_4537/term_project/API/v1/";
 const xhttp = new XMLHttpRequest();
 const incompleteCustomer = "Please ensure customer details are filled out completely."
+const duplicateCustomerEmail = "Email is already used. Please enter a different email."
+const missingCustomerEmail = "Email does not exist. Please ensure the email is correct."
+const apikey = "MyAppKey";
 
 function Button(name, colour) {
     this.btn = document.createElement("button");
@@ -52,8 +55,22 @@ function displayCustomer(customer = null) {
         let newemail = customerTexts[2].value;
         if (newfname.trim() && newlname.trim() && newemail.trim()) {
             let newcustomer = new Customer(newfname, newlname, newemail)
-            updateFunction(customer, newcustomer);
-            customer = newcustomer;
+            let body = {apikey: apikey, oldEmail: customer.email, newFname: newcustomer.fname, newLname: newcustomer.lname, newEmail: newcustomer.email};
+            body = JSON.stringify(body);
+            console.log(body);
+            xhttp.open("PUT", endPointRoot + "customers/", true);
+            xhttp.setRequestHeader('Content-type', 'application/json')
+            xhttp.send(body);
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    console.log(this.responseText);
+                    customer = newcustomer;
+                } else if (this.readyState == 4 && this.status == 401) {
+                    window.alert(duplicateCustomerEmail);
+                } else if (this.readyState == 4 && this.status == 402) {
+                    window.alert(missingCustomerEmail);
+                }
+            }
         } else {
             window.alert(incompleteCustomer);
         }
@@ -63,8 +80,7 @@ function displayCustomer(customer = null) {
     deleteButton.btn.setAttribute("class", "functionButton");
     buttonsDiv.appendChild(deleteButton.btn);
     deleteButton.btn.onclick = function() {
-        deleteFunction(customer);
-        customerDiv.remove();
+        deleteFunction(customer, customerDiv);
     }
 
     let saveButton = new Button("Save", "lightgreen");
@@ -76,12 +92,8 @@ function displayCustomer(customer = null) {
         let newlname = customerTexts[1].value;
         let newemail = customerTexts[2].value;
         if (newfname.trim() && newlname.trim() && newemail.trim()) {
-            newcustomer = new Customer(newfname, newlname, newemail);
-            saveFunction(newcustomer);
-            saveButton.btn.style.display = "none";
-            deleteButton.btn.style.display = "";
-            updateButton.btn.style.display = "";
-            customer = newcustomer;
+            customer = new Customer(newfname, newlname, newemail);
+            saveFunction(customer, saveButton, deleteButton, updateButton);
         } else {
             window.alert(incompleteCustomer);
         }
@@ -98,51 +110,50 @@ function displayCustomer(customer = null) {
     }
 }
 
-function saveFunction(customer) {
-    let body = JSON.stringify(customer);
+function saveFunction(customer, saveButton, deleteButton, updateButton) {
+    let body = {apikey: apikey, fname: customer.fname, lname: customer.lname, email: customer.email};
+    body = JSON.stringify(body);
     console.log(body);
     xhttp.open("POST", endPointRoot + "customers/", true);
     xhttp.setRequestHeader('Content-type', 'application/json')
     xhttp.send(body);
     xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState == 4 && (this.status == 401 || this.status == 400)) {
+            window.alert(duplicateCustomerEmail);
+        } else if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
-        }
+            saveButton.btn.style.display = "none";
+            deleteButton.btn.style.display = "";
+            updateButton.btn.style.display = "";
+        };
     }
-}
+};
 
-function deleteFunction(customer) {
-    let body = JSON.stringify(customer);
+
+function deleteFunction(customer, customerDiv) {
+    let body = {apikey: apikey, email: customer.email};
+    body = JSON.stringify(body);
     xhttp.open("DELETE", endPointRoot + "customers/", true);
     xhttp.setRequestHeader('Content-type', 'application/json')
     xhttp.send(body);
     xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.readyState == 4 && this.status == 402) {
+            window.alert(missingCustomerEmail);
+        } else if (this.readyState == 4 && this.status == 200) {
             console.log(this.responseText);
-        }
-    }
-}
-
-function updateFunction(oldcustomer, newcustomer) {
-    let body = {oldFname: oldcustomer.fname, oldLname: oldcustomer.lname, oldEmail: oldcustomer.email, newFname: newcustomer.fname, newLname: newcustomer.lname, newEmail: newcustomer.email};
-    body = JSON.stringify(body);
-    console.log(body);
-    xhttp.open("PUT", endPointRoot + "customers/", true);
-    xhttp.setRequestHeader('Content-type', 'application/json')
-    xhttp.send(body);
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
+            customerDiv.remove();
         }
     }
 }
 
 function displayCustomers() {
-    xhttp.open("GET", endPointRoot + "customers/", true);
+    xhttp.open("GET", endPointRoot + "customers/" + apikey, true);
     xhttp.send();
     xhttp.onreadystatechange = function() {
         console.log(this.responseText);
-        if (this.readyState == 4 && this.status == 200) {
+        if (this.status == 400) {
+            document.getElementById("loading").innerHTML = this.responseText;
+        }else if (this.readyState == 4 && this.status == 200) {
             if (this.responseText) {
                 let rows = JSON.parse(this.responseText);
                 if (rows.length == 0) {

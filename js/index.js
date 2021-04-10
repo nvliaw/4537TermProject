@@ -2,6 +2,7 @@ const adminPage = "admin.html";
 const customerPage = "customer.html";
 const venuePage = "venue.html";
 const bookingPage = "booking.html";
+const bookingDatePage = "bookingDate.html";
 
 function Button(name, colour) {
     this.btn = document.createElement("button");
@@ -39,3 +40,7 @@ venueButton.btn.onclick = goToPage(venuePage);
 let bookingButton = new Button("Bookings Page", "lightgreen");
 bookingButton.btn.style.margin = "0.5em";
 bookingButton.btn.onclick = goToPage(bookingPage);
+
+let bookingDateButton = new Button("Bookings By Date Page", "lightgreen");
+bookingDateButton.btn.style.margin = "0.5em";
+bookingDateButton.btn.onclick = goToPage(bookingDatePage);

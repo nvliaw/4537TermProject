@@ -10,12 +10,20 @@ body {
     resize: none;
     background-color: beige;
 }
+
+.venueText, .bookingText {
+    background-color: beige;
+    resize: none;
+    height: 3em;
+    margin-right: 1em;
+}
+
 .functionButton {
     display: block;
     margin-top: 0.5em;
 }
 
-.individualCustomer {
+.individualCustomer, .individualVenue {
     /* margin-top: 2em; */
     height: 4.5em;
     margin-top: 0.8em;
