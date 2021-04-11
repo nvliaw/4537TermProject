@@ -58,7 +58,7 @@
             "description": "Successful operation"
           },
           "400": {
-            "description": "Failed operation"
+            "description": "Unauthorized: Wrong API Key"
           }
         }
       },
@@ -90,7 +90,10 @@
             "description": "Successful operation"
           },
           "400": {
-            "description": "Failed operation"
+            "description": "Unauthorized: Wrong API Key"
+          },
+          "401": {
+             "description": "Inputted Customer already exists"
           }
         }
       },
@@ -122,10 +125,13 @@
             "description": "Successful operation"
           },
           "400": {
-            "description": "Failed operation"
+            "description": "Unauthorized: Wrong API Key"
           },
-          "404": {
-            "description": "Customer not found"
+          "401": {
+             "description": "Inputted Customer already exists"
+          },
+          "402": {
+            "description": "Inputted Customer does not exist"
           }
         }
       },
@@ -157,10 +163,13 @@
             "description": "Successful operation"
           },
           "400": {
-            "description": "Failed operation"
+            "description": "Unauthorized: Wrong API Key"
           },
-          "404": {
-            "description": "Customer not found"
+          "402": {
+            "description": "Inputted Customer does not exist"
+          },
+          "406": {
+             "description": "Delete failed: Customer is used in a Booking"
           }
         }
       }
@@ -194,7 +203,7 @@
             "description": "Successful operation"
           },
           "400": {
-            "description": "Failed operation"
+            "description": "Unauthorized: Wrong API Key"
           }
         }
       },
@@ -226,7 +235,10 @@
             "description": "Successful operation"
           },
           "400": {
-            "description": "Failed operation"
+            "description": "Unauthorized: Wrong API Key"
+          },
+          "401": {
+             "description": "Inputted Venue already exists"
           }
         }
       },
@@ -258,10 +270,13 @@
             "description": "Successful operation"
           },
           "400": {
-            "description": "Failed operation"
+            "description": "Unauthorized: Wrong API Key"
           },
-          "404": {
-            "description": "Venue not found"
+          "401": {
+             "description": "Inputted Venue already exists"
+          },
+          "402": {
+            "description": "Inputted Venue does not exist"
           }
         }
       },
@@ -293,10 +308,13 @@
             "description": "Successful operation"
           },
           "400": {
-            "description": "Failed operation"
+            "description": "Unauthorized: Wrong API Key"
           },
-          "404": {
-            "description": "Venue not found"
+          "402": {
+            "description": "Inputted Venue does not exist"
+          },
+          "406": {
+             "description": "Delete failed: Venue is used in a Booking"
           }
         }
       }
@@ -330,7 +348,7 @@
             "description": "Successful operation"
           },
           "400": {
-            "description": "Failed operation"
+            "description": "Unauthorized: Wrong API Key"
           }
         }
       },
@@ -362,42 +380,10 @@
             "description": "Successful operation"
           },
           "400": {
-            "description": "Failed operation"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "bookings"
-        ],
-        "summary": "Update an existing Booking",
-        "description": "",
-        "consumes": [
-          "application/json"
-        ],
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "description": "Booking object that needs to be added",
-            "required": true,
-            "schema": {
-              "$ref": "#/definitions/Booking"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful operation"
+            "description": "Unauthorized: Wrong API Key"
           },
-          "400": {
-            "description": "Failed operation"
-          },
-          "404": {
-            "description": "Booking not found"
+          "401": {
+             "description": "Inputted Booking already exists"
           }
         }
       },
@@ -429,10 +415,81 @@
             "description": "Successful operation"
           },
           "400": {
-            "description": "Failed operation"
+            "description": "Unauthorized: Wrong API Key"
           },
-          "404": {
-            "description": "Booking not found"
+          "402": {
+            "description": "Inputted Booking does not exist"
+          }
+        }
+      }
+    },
+    "bookings/booking/{id}":{
+      "get": {
+          "tags": [
+              "bookings"
+        ],
+        "summary": "Return booking by id",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Booking object to be deleted",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Booking"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Unauthorized: Wrong API Key"
+          },
+          "402": {
+            "description": "Inputted Booking does not exist"
+          }
+        }    
+      }
+  },
+    "/statistics": {
+      "get": {
+        "tags": [
+          "statistics"
+        ],
+        "summary": "Gets all the Statistics",
+        "description": "",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Statistics object that's returned",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Statistics"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "405": {
+            "description": "Invalid username or password"
           }
         }
       }
@@ -512,6 +569,28 @@
         "c_id": {
           "type": "integer",
           "example": 0
+        }
+      }
+    },
+    "Statistics": {
+      "type": "object",
+      "required": [
+        "method",
+        "endpoint",
+        "requests"
+      ],
+      "properties": {
+        "method": {
+          "type": "string",
+          "example": "GET"
+        },
+        "endpoint": {
+          "type": "string",
+          "example": "/API/v1/customers/"
+        },
+        "requests": {
+          "type": "integer",
+          "example": 1000
         }
       }
     }
