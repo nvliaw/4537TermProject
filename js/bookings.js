@@ -75,14 +75,12 @@ function displayBooking(booking) {
 
 function deleteFunction(booking, bookingDiv) {
     let body = {apikey: apikey, b_id: booking.b_id};
-    console.log(body);
     body = JSON.stringify(body);
     xhttp.open("DELETE", endPointRoot + "bookings/", true);
     xhttp.setRequestHeader('Content-type', 'application/json')
     xhttp.send(body);
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
             bookingDiv.remove();
         }
     }
@@ -92,7 +90,6 @@ function displayBookings() {
     xhttp.open("GET", endPointRoot + "bookings/" + apikey, true);
     xhttp.send();
     xhttp.onreadystatechange = function() {
-        console.log(this.responseText);
         if (this.status == 400) {
             document.getElementById("loading").innerHTML = this.responseText;
         }else if (this.readyState == 4 && this.status == 200) {
@@ -103,7 +100,6 @@ function displayBookings() {
                 } else {
                     document.getElementById("loading").style.display = "none";
                     for (let i = 0; i < rows.length; i++) {
-                        console.log(rows[i]);
                         booking = new Booking(rows[i].b_id, rows[i].c_id, rows[i].venue_id, rows[i].fname + " " + rows[i].lname + " " + rows[i].email, rows[i].venue_name + " " + rows[i].address, rows[i].booking_date);
                         displayBooking(booking);
                     }
@@ -116,7 +112,7 @@ function displayBookings() {
 function addBooking() {
 
     let addingDiv = document.createElement("div");
-    addingDiv.setAttribute("class", "individualBooking");
+    addingDiv.setAttribute("class", "addBooking");
     document.getElementById("bookings").appendChild(addingDiv);
 
     let customerMenu = document.createElement("select");
@@ -130,6 +126,7 @@ function addBooking() {
     populateVenues(venueMenu);
 
     let datePicker = document.createElement("input");
+    datePicker.setAttribute("class", "dropdown");
     datePicker.setAttribute("type", "date");
     addingDiv.appendChild(datePicker);
 
@@ -164,7 +161,6 @@ function populateCustomers(menu) {
             if (this.responseText) {
                 let rows = JSON.parse(this.responseText);
                 for (let i = 0; i < rows.length; i++) {
-                    console.log(rows[i]);
                     customers.push(new Customer(rows[i].c_id, rows[i].fname, rows[i].lname, rows[i].email));
                 }
                 for (j = 0; j < customers.length; j++) {
@@ -187,7 +183,6 @@ function populateVenues(menu) {
             if (this.responseText) {
                 let rows = JSON.parse(this.responseText);
                 for (let i = 0; i < rows.length; i++) {
-                    console.log(rows[i]);
                     venues.push(new Venue(rows[i].venue_id, rows[i].venue_name, rows[i].address));
                 }
                 for (j = 0; j < venues.length; j++) {
@@ -204,7 +199,6 @@ function populateVenues(menu) {
 function saveFunction(customer, venue, date, addingDiv) {
     let body = {apikey: apikey, v_id: venue, c_id: customer, date: date};
     body = JSON.stringify(body);
-    console.log(body);
     xhttp.open("POST", endPointRoot + "bookings/", true);
     xhttp.setRequestHeader('Content-type', 'application/json')
     xhttp.send(body);
@@ -213,7 +207,6 @@ function saveFunction(customer, venue, date, addingDiv) {
             window.alert(duplicateBooking);
         } else if (this.readyState == 4 && this.status == 200) {
             addingDiv.remove();
-            console.log(JSON.parse(this.responseText));
             swapNewBookingToText(JSON.parse(this.responseText).insertId);
         };
     }
@@ -224,9 +217,7 @@ function swapNewBookingToText(booking_id) {
     bookinghttp.open("GET", endPointRoot + "bookings/booking/" + booking_id + "/" + apikey)
     bookinghttp.send();
     bookinghttp.onreadystatechange = function() {
-        console.log(this.responseText)
         if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
             let row = JSON.parse(this.responseText)
             booking = new Booking(row[0].b_id, row[0].c_id, row[0].venue_id, row[0].fname + " " + row[0].lname + " " + row[0].email, row[0].venue_name + " " + row[0].address, row[0].booking_date);
             displayBooking(booking);

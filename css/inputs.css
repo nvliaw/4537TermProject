@@ -3,19 +3,29 @@ body {
 }
 
 .customerText {
-    /* float:left; */
     padding-right: 1em;
     margin-right: 1em;
     height: 100%;
     resize: none;
     background-color: beige;
+    width: 25%;
 }
 
-.venueText, .bookingText {
+.venueText, .bookingText{
     background-color: beige;
     resize: none;
-    height: 3em;
+    height: 4em;
     margin-right: 1em;
+    width: 25%;
+}
+
+.dropdown {
+    display: block;
+    background-color: beige;
+}
+
+.addBooking {
+    margin-bottom: 0.5em;
 }
 
 .functionButton {
@@ -23,8 +33,7 @@ body {
     margin-top: 0.5em;
 }
 
-.individualCustomer, .individualVenue {
-    /* margin-top: 2em; */
+.individualCustomer, .individualVenue, .individualBooking {
     height: 4.5em;
     margin-top: 0.8em;
     margin-bottom: 0.8em;

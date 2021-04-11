@@ -3,6 +3,8 @@ const xhttp = new XMLHttpRequest();
 const incompleteCustomer = "Please ensure customer details are filled out completely."
 const duplicateCustomerEmail = "Email is already used. Please enter a different email."
 const missingCustomerEmail = "Email does not exist. Please ensure the email is correct."
+const incorrectEmail = "Please enter a valid email."
+const existingBooking = "Unable to delete customer. Customer is used in a booking."
 const apikey = "MyAppKey";
 
 function Button(name, colour) {
@@ -18,7 +20,6 @@ function Customer(fname, lname, email) {
 }
 
 function displayCustomer(customer = null) {
-    console.log(customer);
     let customerDiv = document.createElement("div");
     customerDiv.setAttribute("class", "individualCustomer");
     document.getElementById("customers").appendChild(customerDiv);
@@ -57,13 +58,11 @@ function displayCustomer(customer = null) {
             let newcustomer = new Customer(newfname, newlname, newemail)
             let body = {apikey: apikey, oldEmail: customer.email, newFname: newcustomer.fname, newLname: newcustomer.lname, newEmail: newcustomer.email};
             body = JSON.stringify(body);
-            console.log(body);
             xhttp.open("PUT", endPointRoot + "customers/", true);
             xhttp.setRequestHeader('Content-type', 'application/json')
             xhttp.send(body);
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    console.log(this.responseText);
                     customer = newcustomer;
                 } else if (this.readyState == 4 && this.status == 401) {
                     window.alert(duplicateCustomerEmail);
@@ -91,11 +90,15 @@ function displayCustomer(customer = null) {
         let newfname = customerTexts[0].value;
         let newlname = customerTexts[1].value;
         let newemail = customerTexts[2].value;
-        if (newfname.trim() && newlname.trim() && newemail.trim()) {
-            customer = new Customer(newfname, newlname, newemail);
-            saveFunction(customer, saveButton, deleteButton, updateButton);
+        if (newemail.includes("@") && newemail.includes(".")) {
+            if (newfname.trim() && newlname.trim()) {
+                customer = new Customer(newfname, newlname, newemail);
+                saveFunction(customer, saveButton, deleteButton, updateButton);
+            } else {
+                window.alert(incompleteCustomer);
+            }
         } else {
-            window.alert(incompleteCustomer);
+            window.alert(incorrectEmail);
         }
     }
 
@@ -113,7 +116,6 @@ function displayCustomer(customer = null) {
 function saveFunction(customer, saveButton, deleteButton, updateButton) {
     let body = {apikey: apikey, fname: customer.fname, lname: customer.lname, email: customer.email};
     body = JSON.stringify(body);
-    console.log(body);
     xhttp.open("POST", endPointRoot + "customers/", true);
     xhttp.setRequestHeader('Content-type', 'application/json')
     xhttp.send(body);
@@ -121,7 +123,6 @@ function saveFunction(customer, saveButton, deleteButton, updateButton) {
         if (this.readyState == 4 && (this.status == 401 || this.status == 400)) {
             window.alert(duplicateCustomerEmail);
         } else if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
             saveButton.btn.style.display = "none";
             deleteButton.btn.style.display = "";
             updateButton.btn.style.display = "";
@@ -140,8 +141,9 @@ function deleteFunction(customer, customerDiv) {
         if (this.readyState == 4 && this.status == 402) {
             window.alert(missingCustomerEmail);
         } else if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
             customerDiv.remove();
+        } else if (this.readyState == 4 && this.status == 406) {
+            window.alert(existingBooking);
         }
     }
 }
@@ -150,7 +152,6 @@ function displayCustomers() {
     xhttp.open("GET", endPointRoot + "customers/" + apikey, true);
     xhttp.send();
     xhttp.onreadystatechange = function() {
-        console.log(this.responseText);
         if (this.status == 400) {
             document.getElementById("loading").innerHTML = this.responseText;
         }else if (this.readyState == 4 && this.status == 200) {

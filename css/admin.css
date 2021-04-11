@@ -6,6 +6,15 @@ table, th, td {
     border: 1px solid black;
 }
 
+#stats_table {
+    visibility: hidden;
+}
+
+#submit {
+    margin-top: 1em;
+    background-color: green;
+}
+
 table {
     background-color: beige;
 }

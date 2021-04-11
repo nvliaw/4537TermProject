@@ -44,7 +44,6 @@ function getAllBookings() {
     xhttp.open("GET", endPointRoot + "bookings/" + apikey, true);
     xhttp.send();
     xhttp.onreadystatechange = function() {
-        console.log(this.responseText);
         if (this.status == 400) {
             document.getElementById("loading").innerHTML = this.responseText;
         }else if (this.readyState == 4 && this.status == 200) {
@@ -55,7 +54,6 @@ function getAllBookings() {
                 } else {
                     document.getElementById("loading").style.display = "none";
                     for (let i = 0; i < rows.length; i++) {
-                        console.log(rows[i]);
                         booking = new Booking(rows[i].fname + " " + rows[i].lname + " " + rows[i].email, rows[i].venue_name + " " + rows[i].address, rows[i].booking_date);
                         allBookings.push(booking);
                     }

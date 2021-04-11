@@ -3,6 +3,7 @@ const xhttp = new XMLHttpRequest();
 const incompleteVenue = "Please ensure venue details are filled out completely."
 const duplicateVenueName = "Venue name is already used. Please enter a different name."
 const missingVenueName = "Venue name does not exist. Please ensure the name is correct."
+const existingBooking = "Unable to delete venue. Venue is used in a booking."
 const apikey = "MyAppKey";
 
 function Button(name, colour) {
@@ -48,13 +49,11 @@ function displayVenue(venue = null) {
             let newvenue = new Venue(newname, newaddress);
             let body = {apikey: apikey, oldName: venue.name, newName: newvenue.name, newAddress: newvenue.address};
             body = JSON.stringify(body);
-            console.log(body);
             xhttp.open("PUT", endPointRoot + "venues/", true);
             xhttp.setRequestHeader('Content-type', 'application/json')
             xhttp.send(body);
             xhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
-                    console.log(this.responseText);
                     venue = newvenue;
                 } else if (this.readyState == 4 && this.status == 401) {
                     window.alert(duplicateVenueName);
@@ -102,7 +101,6 @@ function displayVenue(venue = null) {
 function saveFunction(venue, saveButton, deleteButton, updateButton) {
     let body = {apikey: apikey, name: venue.name, address: venue.address};
     body = JSON.stringify(body);
-    console.log(body);
     xhttp.open("POST", endPointRoot + "venues/", true);
     xhttp.setRequestHeader('Content-type', 'application/json')
     xhttp.send(body);
@@ -127,8 +125,9 @@ function deleteFunction(venue, venueDiv) {
         if (this.readyState == 4 && this.status == 402) {
             window.alert(missingVenueName);
         } else if (this.readyState == 4 && this.status == 200) {
-            console.log(this.responseText);
             venueDiv.remove();
+        } else if (this.readyState == 4 && this.status == 406) {
+            window.alert(existingBooking)
         }
     }
 }
@@ -137,7 +136,6 @@ function displayVenues() {
     xhttp.open("GET", endPointRoot + "venues/" + apikey, true);
     xhttp.send();
     xhttp.onreadystatechange = function() {
-        console.log(this.responseText);
         if (this.status == 400) {
             document.getElementById("loading").innerHTML = this.responseText;
         }else if (this.readyState == 4 && this.status == 200) {
